@@ -13,6 +13,12 @@ min_15 = pd.read_csv(OUTPUT_DIR / 'ranking_tmin_top15_cold.csv')
 top_15_districts = pd.read_csv(OUTPUT_DIR / 'ranking_tmin_top15_hot.csv')
 
 
+def convert_for_download(df):
+    return df.to_csv().encode("utf-8")
+
+csv_min_15 = convert_for_download(min_15)
+csv_top_15_districts = convert_for_download(top_15_districts)
+
 # page title
 st.set_page_config(page_title="Minimum-Temperature-Raster", layout="wide")
 
@@ -89,10 +95,14 @@ with tab2:
 
     with e:
         st.write("### Distritos más fríos (Top 15)")
+        st.download_button(
+            label="📥 Descargar CSV", data= csv_min_15, file_name= 'Distritos más fríos (Top 15).csv')
         st.dataframe(min_15)
 
     with f:
         st.write("### Distritos frios más cálidos (Top 15)")
+        st.download_button(
+            label="📥 Descargar CSV", data= csv_top_15_districts, file_name= 'istritos frios más cálidos (Top 15).csv')
         st.dataframe(top_15_districts)
 
 
